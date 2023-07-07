@@ -39,7 +39,7 @@ LoadData_Kaha;
 
 %Controls: use these if statements to modify pipeline
 intermediatePlots = false; % flag to control plots showing data progress
-VisualInspection = false; 
+VisualInspection = true; 
 
 
 
@@ -148,7 +148,12 @@ if (intermediatePlots)
 end
 clear vars dataRawSeged;
 
+
+
 %% Washing Machine
+% dataDenoised = load('dataDwnsmp').dataDwnsmp;
+% dataDenoised.trialinfo = [1	0	1	1	1	1	1	1	0	0	1	0	1	0	1	0	1	0	0	0	1	1	1	1	1	0	0	0	0	0	0	0	0	1	0	1	0	0	1	1	0	1	0	0	0	1	0	1	0	0	0	0	1	1	1	1	0	0	1	1	1	0	0	1	1	1	0	0	0	0	0	0	0	0	1	0	0	0	1	1	0	0	1	1	1	0	1	0	0	0	1	1	1	1	1	1	1	1	0	1	0	0	0	1	0	0	1	0	0	0	0	0	1	0	1	1	0	1	0	0	1	1	0	0	0	0	1	0	1	0	0	1	0	0	0	1	0	1	0	1];
+
 if VisualInspection
     % dataIn.datatype = 'raw';
     %{ 
@@ -200,7 +205,6 @@ if(usePCA || useICA)
     keepNum = 10;
 
 
-
     makeLabel = [];
     for i=1:keepNum
         makeLabel  = [makeLabel,{sprintf('PC%d',i)}];
@@ -212,7 +216,19 @@ if(usePCA || useICA)
 end
 
 
+%clip trials
+% trlLen = length(removedData.trial{1}(1,:));
+% for i=2:length(removedData.trial)
+%     trlLen = min(trlLen,length(removedData.trial{i}(1,:)));
+% end
+% 
+% trlLen = length(removedData.trial{i}(1,:));
+% for i=2:length(removedData.trial)
+%     removedData.trial{i} = removedData.trial{i}(:,1:trlLen);
+% end
 %%
+
+
 Tfreq_Features = OutputWaveletScattering(removedData , windowLen, DataSetName);
 
 %
