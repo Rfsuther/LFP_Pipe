@@ -9,7 +9,7 @@ function   totalTrials = OutputWaveletScattering( FTDataStruct, tWindow, FolderN
     fsample = removedData.fsample;
     waveFltrBank = waveletScattering('SignalLength',size(A_3dTrialVectShort,1),'SamplingFrequency',fsample/downSampleBy,'InvarianceScale',.75); %.75 is best
     
-    [waveFeatures,U] = featureMatrix(waveFltrBank,A_3dTrialVectShort);
+    [waveFeatures1,U] = featureMatrix(waveFltrBank,A_3dTrialVectShort);
     %[A,B] = scatteringTransform(waveFltrBank,squeeze (A_3dTrialVectShort(:,1,1)));
    % scattergram(A,B,'FilterBank',1)
 
