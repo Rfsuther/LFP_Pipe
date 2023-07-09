@@ -1,4 +1,3 @@
-
 % 
 % 
 % %%
@@ -23,8 +22,8 @@ lambda_pool = power(10, 1:-0.1:-9); % Define the lambd a pool
 
 fitMetaLearner = 1;
 %%    
-nBags = 100 %500
-nCompts =24;
+nBags = 150 %500
+nCompts =size(CorrectTrials.Value,2);
 firstLayMCCsCV = zeros(nBags,nCompts);
 firstLayMCCFinal = zeros(nBags,nCompts);
 MCCmeta = zeros(nBags,1) ;

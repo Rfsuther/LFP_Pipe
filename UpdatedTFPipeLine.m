@@ -39,7 +39,7 @@ LoadData_Kaha;
 
 %Controls: use these if statements to modify pipeline
 intermediatePlots = false; % flag to control plots showing data progress
-VisualInspection = true; 
+VisualInspection = false; 
 
 
 
@@ -151,9 +151,8 @@ clear vars dataRawSeged;
 
 
 %% Washing Machine
-% dataDenoised = load('dataDwnsmp').dataDwnsmp;
-% dataDenoised.trialinfo = [1	0	1	1	1	1	1	1	0	0	1	0	1	0	1	0	1	0	0	0	1	1	1	1	1	0	0	0	0	0	0	0	0	1	0	1	0	0	1	1	0	1	0	0	0	1	0	1	0	0	0	0	1	1	1	1	0	0	1	1	1	0	0	1	1	1	0	0	0	0	0	0	0	0	1	0	0	0	1	1	0	0	1	1	1	0	1	0	0	0	1	1	1	1	1	1	1	1	0	1	0	0	0	1	0	0	1	0	0	0	0	0	1	0	1	1	0	1	0	0	1	1	0	0	0	0	1	0	1	0	0	1	0	0	0	1	0	1	0	1];
-
+ %dataDenoised = load('dataDwnsmp').dataDwnsmp;
+ 
 if VisualInspection
     % dataIn.datatype = 'raw';
     %{ 
@@ -175,7 +174,8 @@ if VisualInspection
 else
     removedData = dataDenoised;
 end
-
+% removedData.trialinfo = [1 0	1	1	1	1	1	1	0	0	1	0	1	0	1	0	1	0	0	0	1	1	1	1	1	0	0	0	0	0	0	0	0	1	0	1	0	0	1	1	0	1	0	0	0	1	0	1	0	0	0	0	1	1	1	1	0	0	1	1	1	0	0	1	1	1	0	0	0	0	0	0	0	0	1	0	0	0	1	1	0	0	1	1	1	0	1	0	0	0	1	1	1	1	1	1	1	1	0	1	0	0	0	1	0	0	1	0	0	0	0	0	1	0	1	1	0	1	0	0	1	1	0	0	0	0	1	0	1	0	0	1	0	0	0	1	0	1	0	1];
+% removedData.trialinfo = [removedData.trialinfo',removedData.cfg.trials'];
 clear dataDenoised dataRawSaved
 %% DIM REDUCTION
 
@@ -217,21 +217,25 @@ end
 
 
 %clip trials
-% trlLen = length(removedData.trial{1}(1,:));
-% for i=2:length(removedData.trial)
-%     trlLen = min(trlLen,length(removedData.trial{i}(1,:)));
-% end
-% 
-% trlLen = length(removedData.trial{i}(1,:));
-% for i=2:length(removedData.trial)
-%     removedData.trial{i} = removedData.trial{i}(:,1:trlLen);
-% end
+trlLen = length(removedData.trial{1}(1,:));
+for i=2:length(removedData.trial)
+    trlLen = min(trlLen,length(removedData.trial{i}(1,:)));
+end
+
+trlLen = length(removedData.trial{i}(1,:));
+for i=2:length(removedData.trial)
+    removedData.trial{i} = removedData.trial{i}(:,1:trlLen);
+end
 %%
+for i = 1:15
 
+InvarianceCoeffMAT = 1.15.^[1:15]-1;
 
-Tfreq_Features = OutputWaveletScattering(removedData , windowLen, DataSetName);
+Tfreq_Features = OutputWaveletScattering(removedData , windowLen, DataSetName,InvarianceCoeffMAT(i));
 
 %
 CorrectTrials = Tfreq_Features{1};
 MissedTrials = Tfreq_Features{2};
+display(InvarianceCoeffMAT(i));
 metaClassifierStatsSCATTERING;
+end
